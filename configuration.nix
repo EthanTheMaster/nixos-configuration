@@ -11,7 +11,10 @@ in
   imports =
     [ 
       (import "${home-manager}/nixos")
+      # Configure networking stack
       ./networking/main.nix
+      # Configure userspace programs
+      ./programs/main.nix
     ];
 
   # Bootloader.
@@ -93,13 +96,6 @@ in
       hledger-web
       tmux
       just
-    #  thunderbird
-      ( vscode-with-extensions.override {
-          vscodeExtensions = with vscode-extensions; [
-            vscodevim.vim 
-            jnoortheen.nix-ide
-          ];
-      })
     ];
   };
   # Setup home-manager
@@ -107,38 +103,9 @@ in
     home.packages = [];
     programs.bash.enable = true;
 
-
-    programs.git = {
-      enable = true;
-      settings = {
-        user = {
-          name  = "Ethan Lam";
-          email = "elmemphis2000@gmail.com";
-        };
-        init.defaultBranch = "main";
-      };
-    };
-
     # The state version is required and should stay at the version you
     # originally installed.
     home.stateVersion = "25.11";
-  };
-
-  # Install firefox.
-  programs.firefox = {
-    enable = true;
-    policies = {
-      # See: mozilla.github.io/policy-templates/#extensionsettings
-      ExtensionSettings = {
-        "*".installation_mode = "blocked"; # blocks all addons except the ones specified below
-        # Bitwarden 
-        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
-          installation_mode = "force_installed";
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/{446900e4-71c2-419f-a6a7-df9c091e268b}/latest.xpi";
-          private_browsing = true;
-        };
-      }; 
-    };
   };
 
   # Allow unfree packages
