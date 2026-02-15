@@ -11,6 +11,7 @@ in
   imports =
     [ 
       (import "${home-manager}/nixos")
+      ./networking/main.nix
     ];
 
   # Bootloader.
@@ -24,8 +25,6 @@ in
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -83,22 +82,8 @@ in
   # Enable inverted scrolling
   services.libinput.touchpad.naturalScrolling = true;
 
-  # Setup Tailscale
-  services.tailscale.enable = true;
-
-  # Setup SSH Server
-  services.openssh = {
-    enable = true;
-    ports = [ 22 ];
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-  };
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ethanlam = {
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFd6sz++4qEBXCiC42s9Wb+Rtpz5/0mG40Hjbw8Fidvn"
-    ];
     isNormalUser = true;
     description = "Ethan Lam";
     extraGroups = [ "networkmanager" "wheel" ];
@@ -174,14 +159,6 @@ in
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-
-  # List services that you want to enable:
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
