@@ -7,12 +7,10 @@
     kdePackages.kate
     hledger
     hledger-web
-    tmux
     just
-    vim
     tree
     wget
-    git
+    dig
   ];
   programs.bash.enable = true;
 
@@ -27,6 +25,25 @@
       init.defaultBranch = "main";
       core.editor = "vim";
     };
+  };
+
+  # Configure tmux
+  programs.tmux = {
+    enable = true;
+    keyMode = "vi";
+  };
+
+  # Configure vim
+  programs.vim = {
+    enable = true;
+    extraConfig = ''
+      set tabstop=2 softtabstop=2 shiftwidth=2
+      set expandtab
+      set number ruler
+      set autoindent smartindent
+      syntax enable
+      filetype plugin indent on
+    '';
   };
 
   # The state version is required and should stay at the version you
