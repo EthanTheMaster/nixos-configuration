@@ -4,18 +4,17 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 ```
 * Run `sudo nixos-rebuild switch` to obtain flakes commands
-* Clone this git repository
-* 
-Update `/etc/nixos/configuration.nix` to use this repository as the entrypoint.
+* Clone this git repository to a local path
+* Create `/etc/nixos/flake.nix` that bootstraps the entire system
 ```nix
-{ config, pkgs, ... }:
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      <PATH_TO_REPO>/configuration.nix
-    ];
+  description = "Bootstrap NixOS Flake";
+  inputs.localNixOSConfig.url = "path:<PATH_TO_GIT_REPOSITORY>";
+
+  outputs = inputs@{ self, localNixOSConfig, ... }: {
+
+    nixosConfigurations.nixos = localNixOSConfig.nixosConfigurations.nixos (import ./hardware-configuration.nix);
+  };
 }
 ```
-
-Then run `sudo nixos-rebuild switch`.
+* Run `sudo nixos-rebuild switch` reconfigure system
