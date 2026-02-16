@@ -3,14 +3,9 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
-let
-  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-25.11.tar.gz;
-in
 {
   imports =
     [ 
-      (import "${home-manager}/nixos")
       # Configure networking stack
       ./networking/main.nix
       # Configure userspace programs
@@ -90,35 +85,15 @@ in
     isNormalUser = true;
     description = "Ethan Lam";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-      hledger
-      hledger-web
-      tmux
-      just
-    ];
+    packages = with pkgs; [];
   };
-  # Setup home-manager
-  home-manager.users.ethanlam = { pkgs, ... }: {
-    home.packages = [];
-    programs.bash.enable = true;
-
-    # The state version is required and should stay at the version you
-    # originally installed.
-    home.stateVersion = "25.11";
-  };
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim
-    tree
-    wget
-    git
-  ];
+  environment.systemPackages = with pkgs; [];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
