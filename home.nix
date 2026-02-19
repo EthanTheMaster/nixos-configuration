@@ -11,6 +11,7 @@
     tree
     wget
     dig
+    helix
   ];
   programs.bash.enable = true;
 
@@ -31,6 +32,12 @@
   programs.tmux = {
     enable = true;
     keyMode = "vi";
+  };
+  
+  # Configure fzf
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
   };
 
   # Configure vim
