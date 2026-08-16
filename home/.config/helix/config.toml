@@ -1,0 +1,7 @@
+theme = "onedark"
+
+[editor]
+line-number = "relative"
+
+[keys.insert]
+"C-space" = "normal_mode"
